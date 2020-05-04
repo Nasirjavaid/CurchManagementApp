@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/familyDetailScreen.dart';
 
 class ListCard extends StatelessWidget {
-  //Items items;
+  Family family;
 
   ListCard({
     Key key,
-    // this.items,
+    this.family
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class ListCard extends StatelessWidget {
                 title: Padding(
                   padding: const EdgeInsets.only(top: 12.0),
                   child: Text(
-                    "Family name",
+                    "${family.familyName}",
                     style: TextStyle(
                         color: Colors.black87, fontWeight: FontWeight.bold),
                   ),
@@ -62,12 +63,16 @@ class ListCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       //  items.dcNo !=null ?
-                      Text(
-                        "Some detail about family",
+                     family.city == null || family.city.isEmpty ? Text(
+                        "N/A",
+                        style: AppTypographyStyles.smallTextStyle
+                            .apply(color: Colors.black54),
+                      ) :  Text(
+                        "${family.address1}",
                         style: AppTypographyStyles.smallTextStyle
                             .apply(color: Colors.black54),
                       ),
-                      //: Text("N/A",style:AppTypographyStyles.smallTextStyle),
+                      // : Text("N/A",style:AppTypographyStyles.smallTextStyle),
                       //  items.dcDate !=null ? Text(DateTimeConverter.getDateAndTime(items.dcDate), style: AppTypographyStyles.smallTextStyle) :Text("N/A",style:AppTypographyStyles.smallTextStyle),
                       Row(
                         children: <Widget>[
@@ -75,7 +80,9 @@ class ListCard extends StatelessWidget {
 
                           // items.status !=null ?
                           // Text(items.status, style: AppTypographyStyles.smallTextStyle.apply(color:Color.fromRGBO(28, 192, 159, .9))) :
-                          Text("Added date",
+                         family.city == null || family.city.isEmpty ? Text("N/A",
+                              style: AppTypographyStyles.smallTextStyle
+                                  .apply(color: Colors.black54)) :  Text("${family.city }",
                               style: AppTypographyStyles.smallTextStyle
                                   .apply(color: Colors.black54)),
                         ],
@@ -88,7 +95,7 @@ class ListCard extends StatelessWidget {
                 onTap: () {
                      Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FamilyDetailScreen())
+                    MaterialPageRoute(builder: (context) => FamilyDetailScreen(family: family,))
                    );
                 }),
           ),

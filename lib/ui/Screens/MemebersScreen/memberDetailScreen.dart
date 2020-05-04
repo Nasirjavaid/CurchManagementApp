@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:jamaithius_family/Models/member.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 
-
 class MemberDetailScreen extends StatefulWidget {
+  Member member;
+  MemberDetailScreen({this.member});
   @override
-  _MemberDetailScreenState createState() => _MemberDetailScreenState();
+  _MemberDetailScreenState createState() => _MemberDetailScreenState(member: member);
 }
 
 class _MemberDetailScreenState extends State<MemberDetailScreen> {
+  Member member;
+  _MemberDetailScreenState({this.member});
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void showMessage(String message, [MaterialColor color = Colors.blue]) {
@@ -37,7 +42,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
             child: ListView(
               scrollDirection: Axis.vertical,
               children: <Widget>[
-                firstName(),
+                firstName(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -47,7 +52,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                lastName(),
+                lastName(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -57,7 +62,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                salutation(),
+                salutation(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -67,7 +72,17 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                relationShip(),
+                // relationShip(member),
+                // SizedBox(
+                //   height: 5,
+                // ),
+                // Container(
+                //   height: 1,
+                //   color: Colors.black12,
+                //   width: MediaQuery.of(context).size.width,
+                // ),
+                // SizedBox(height: 15),
+                streetAddress1(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -77,7 +92,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                streetAddress(),
+                 streetAddress2(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -87,7 +102,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                city(),
+                city(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -97,7 +112,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                state(),
+                state(member),
                 SizedBox(
                   height: 5,
                 ),
@@ -107,7 +122,67 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                zipCode(),
+                zipCode(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                doNotCall(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                dayPhone(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                eveningPhone(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                mobilePhone(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                email(member),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                  doNotEmail(member),
                  SizedBox(
                   height: 5,
                 ),
@@ -117,8 +192,8 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                doNotCall(),
-                 SizedBox(
+                webUrl(member),
+                SizedBox(
                   height: 5,
                 ),
                 Container(
@@ -127,64 +202,14 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                dayPhone(),
-                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                eveningPhone(),
-                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                mobilePhone(),
-                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                email(),
-                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                webUrl(),
-                 SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                dateOfBirth(),
+                dateOfBirth(member),
                 // Container(
                 //   height: 1,
                 //   color: Colors.black12,
                 //   width: MediaQuery.of(context).size.width,
                 // ),
                 SizedBox(height: 15),
-                buttonAccept()
+                buttonAccept(member)
               ],
             ),
           ),
@@ -194,7 +219,7 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
   }
 
 // for emplyee name widget
-  Widget firstName() {
+  Widget firstName(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -204,15 +229,21 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "James bond",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          member.firstName == null || member.firstName.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${member.firstName}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget lastName() {
+  Widget lastName(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -222,15 +253,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "jimmy",
+         member.lastName == null || member.lastName.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${member.lastName}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-  Widget salutation() {
+  Widget salutation(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -240,51 +275,80 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "not mentioned yet",
+         member.salutation == null || member.salutation.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${member.salutation}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-  Widget relationShip() {
+  // Widget relationShip(Member member) {
+  //   return Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: <Widget>[
+  //         Text("Relationship",
+  //             style: AppTypographyStyles.mainHeadingTextStyle
+  //                 .apply(color: Colors.black54)),
+  //         SizedBox(
+  //           height: 5,
+  //         ),
+  //        member. Text(
+  //           "Husband",
+  //           style:
+  //               AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+  //         )
+  //       ]);
+  // }
+
+  Widget streetAddress1(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Relationship",
+          Text("Street address 1",
               style: AppTypographyStyles.mainHeadingTextStyle
                   .apply(color: Colors.black54)),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "Husband",
+         member.address1 == null || member.address1.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${member.address1}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
-
-  Widget streetAddress() {
+   Widget streetAddress2(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Street address",
+          Text("Street address 2",
               style: AppTypographyStyles.mainHeadingTextStyle
                   .apply(color: Colors.black54)),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "street #12 down town New York",
+         member.address2 == null || member.address2.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${member.address2}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-  Widget city() {
+  Widget city(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -294,15 +358,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "New York",
+         member.city == null || member.city.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :   Text(
+            "${member.city}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-  Widget state() {
+  Widget state(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -312,16 +380,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-                "Maxico"   ,
-                         style:
+         member.state == null || member.state.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${member.state }",
+            style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-
-   Widget zipCode() {
+  Widget zipCode(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -331,15 +402,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "364834",
+         member.zipCode == null || member.zipCode.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) : Text(
+            "${member.zipCode}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
- Widget doNotCall() {
+  Widget doNotCall(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -349,15 +424,21 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "Memeber do not want to receive a call",
+         
+         member.donotcall== null || member.donotcall == false ? Text(
+            "No",
             style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.red),
+          ):
+           Text(
+            "Yes",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.green),
           )
         ]);
   }
 
-   Widget dayPhone() {
+  Widget dayPhone(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -367,33 +448,41 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "+190874537453",
+         member.dayPhone == null || member.dayPhone.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :Text(
+            "${member.dayPhone}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-   Widget eveningPhone() {
+  Widget eveningPhone(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Eveingi phone",
+          Text("Evening phone",
               style: AppTypographyStyles.mainHeadingTextStyle
                   .apply(color: Colors.black54)),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "+190874537453",
+        member.eveningPhone == null || member.eveningPhone.isEmpty ?  Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) : Text(
+            "${member.eveningPhone}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
- Widget mobilePhone() {
+  Widget mobilePhone(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -403,14 +492,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "+190874537453",
+         member.mobilePhone == null || member.mobilePhone.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) : Text(
+            "${member.mobilePhone}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
- Widget email() {
+
+  Widget email(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -420,15 +514,43 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "abc@gmail.com",
+         member.email == null || member.email.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) : Text(
+            "${member.email}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
- Widget webUrl() {
+   Widget doNotEmail(Member member) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Memeber Email permission",
+              style: AppTypographyStyles.mainHeadingTextStyle
+                  .apply(color: Colors.black54)),
+          SizedBox(
+            height: 5,
+          ),
+         
+         member.donotemail== null || member.donotemail == false ? Text(
+            "No",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.red),
+          ):
+           Text(
+            "Yes",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.green),
+          )
+        ]);
+  }
+
+  Widget webUrl(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -438,15 +560,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "www.google.com",
+         member.weburl == null || member.weburl.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) : Text(
+            "${member.weburl}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
-   Widget dateOfBirth() {
+  Widget dateOfBirth(Member member) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -456,21 +582,19 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "2020-4-05",
+         member.dob == null || member.dob.isEmpty ? Text(
+            "N/A",
+            style:
+                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
+          ) :  Text(
+            "${DateTimeConverter.getDateAndTime(member.dob)}",
             style:
                 AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
           )
         ]);
   }
 
- 
-
-
-
-
-
-  Widget buttonAccept() {
+  Widget buttonAccept(Member member) {
     return Padding(
       padding:
           const EdgeInsets.only(left: 20.0, right: 20, top: 30, bottom: 15),
@@ -493,15 +617,18 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
               //   ),
               // ],
               gradient: new LinearGradient(
-                  colors: [AppColorsStyles.backgroundColour, AppColorsStyles.backgroundColour],
+                  colors: [
+                    AppColorsStyles.backgroundColour,
+                    AppColorsStyles.backgroundColour
+                  ],
                   begin: const FractionalOffset(0.2, 0.2),
                   end: const FractionalOffset(1.0, 1.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ),
             child: MaterialButton(
-                highlightColor:  AppColorsStyles.backgroundColour,
-                splashColor:  AppColorsStyles.backgroundColour,
+                highlightColor: AppColorsStyles.backgroundColour,
+                splashColor: AppColorsStyles.backgroundColour,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                 child: Padding(
@@ -540,14 +667,17 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
               //   ),
               // ],
               gradient: new LinearGradient(
-                  colors: [AppColorsStyles.backgroundColour, AppColorsStyles.backgroundColour],
+                  colors: [
+                    AppColorsStyles.backgroundColour,
+                    AppColorsStyles.backgroundColour
+                  ],
                   begin: const FractionalOffset(0.2, 0.2),
                   end: const FractionalOffset(1.0, 1.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ),
             child: MaterialButton(
-                highlightColor:  AppColorsStyles.backgroundColour,
+                highlightColor: AppColorsStyles.backgroundColour,
                 splashColor: AppColorsStyles.backgroundColour,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),

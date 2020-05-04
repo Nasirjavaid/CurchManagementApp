@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/familyListScreen.dart';
-import 'package:jamaithius_family/ui/Screens/MemebersScreen/addNewMemeber.dart';
-import 'package:jamaithius_family/ui/Screens/MemebersScreen/memberListScreen.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/addNewFamilyForm.dart';
-
-
 
 class DashBordScreen extends StatefulWidget {
   @override
@@ -13,10 +9,9 @@ class DashBordScreen extends StatefulWidget {
 }
 
 class _DashBordScreenState extends State<DashBordScreen> {
- // HttpService httpService = HttpService();
+  // HttpService httpService = HttpService();
 //  HttpServiceSmDeliveryChallan httpServiceSmDeliveryChallan;
- final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
- 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -27,10 +22,26 @@ class _DashBordScreenState extends State<DashBordScreen> {
   }
 
   void showMessage(String message, [MaterialColor color = Colors.blue]) {
-    _scaffoldKey.currentState.showSnackBar(
-        new SnackBar(backgroundColor: color, content: new Text(message,style: TextStyle(fontWeight:FontWeight.w700),),duration: const Duration(seconds:1),));
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 1),
+    ));
   }
-  
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 1),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +50,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
         elevation: 0,
-        title: Center(child: Text("Church Management", style: AppTypographyStyles.mainHeadingTextStyle,)),
+        title: Center(
+            child: Text(
+          "Church Management",
+          style: AppTypographyStyles.mainHeadingTextStyle,
+        )),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       ),
       body: GridView.count(
@@ -54,33 +69,24 @@ class _DashBordScreenState extends State<DashBordScreen> {
 
                 if (internet) {
                   // go to other screen
-       
-           //  showMessage("TODO: DO SOMETHING HERE");
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return AddNewFamilyForm();
-              }));
-                  
-                } else {
-                 //show network erro
-                  Scaffold.of(context).showSnackBar(new SnackBar(
-                    backgroundColor: Colors.redAccent,
-                content: new Text('Network is not available !!!')));
-            
 
+                  //  showMessage("TODO: DO SOMETHING HERE");
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return AddNewFamilyForm();
+                  }));
+                } else {
+                  //show network erro
+                 showMessageError("Network is not avalable !!!");
                 }
               });
             },
-
             "Add Family",
-            
           ),
           // buildCardWithIcon(
           //   Icons.person_add,
           //   context,
           //   () {
-             
 
-             
           //    //showMessage("TODO: DO SOMETHING HERE");
           //      Navigator.push(context, MaterialPageRoute(builder: (context) {
           //       return AddNewMemeber();
@@ -93,15 +99,25 @@ class _DashBordScreenState extends State<DashBordScreen> {
             Icons.people_outline,
             context,
             () {
-              Navigator.push(
+              NetworkConnectivity.check().then((internet) async {
+                // clear past user
+
+                if (internet) {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
                         return FamilyListViewScreen();
                       },
                     ),
-                 );
-            //  showMessage("TODO: DO SOMETHING HERE");
+                  );
+                } else {
+                  //show network erro
+                  showMessageError("Network is not avalable !!!");
+                }
+              });
+
+              //  showMessage("TODO: DO SOMETHING HERE");
             },
             "All Famlies",
           ),
@@ -134,7 +150,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               // Navigator.push(context, MaterialPageRoute(builder: (context) {
               //   return CommonListViewScreen();
               // }));
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Documents",
           ),
@@ -145,7 +161,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               // Navigator.push(context, MaterialPageRoute(builder: (context) {
               //   return CommonListViewScreen();
               // }));
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Email",
           ),
@@ -160,7 +176,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Accounts",
           ),
@@ -175,7 +191,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Reports",
           ),
@@ -190,11 +206,11 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-                showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "SMS",
           ),
-           buildCardWithIcon(
+          buildCardWithIcon(
             Icons.call,
             context,
             () {
@@ -205,12 +221,12 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Phone",
           ),
 
-           buildCardWithIcon(
+          buildCardWithIcon(
             Icons.account_box,
             context,
             () {
@@ -221,12 +237,12 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "My Accounts",
           ),
 
-           buildCardWithIcon(
+          buildCardWithIcon(
             Icons.library_books,
             context,
             () {
@@ -237,7 +253,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
               //     },
               //   ),
               // );
-               showMessage("Not available Yet");
+              showMessage("Not available Yet");
             },
             "Certificates",
           )

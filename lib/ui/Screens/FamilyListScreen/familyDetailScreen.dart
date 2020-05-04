@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/ui/Screens/MemebersScreen/addNewMemeber.dart';
 import 'package:jamaithius_family/ui/Screens/MemebersScreen/memberListScreen.dart';
 
 class FamilyDetailScreen extends StatefulWidget {
+  Family family;
+
+  FamilyDetailScreen({this.family});
+
   @override
-  _FamilyDetailScreenState createState() => _FamilyDetailScreenState();
+  _FamilyDetailScreenState createState() =>
+      _FamilyDetailScreenState(family: family);
 }
 
 class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
+  Family family;
+  _FamilyDetailScreenState({this.family});
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   void showMessage(String message, [MaterialColor color = Colors.blue]) {
@@ -38,7 +46,7 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
             child: ListView(
               scrollDirection: Axis.vertical,
               children: <Widget>[
-                familName(),
+                familName(family),
                 SizedBox(
                   height: 5,
                 ),
@@ -48,59 +56,9 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                registeredDate(),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                familyStreetAddress(),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                familyCity(),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                familyState(),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                familyAizCode(),
-                SizedBox(
-                  height: 5,
-                ),
-                Container(
-                  height: 1,
-                  color: Colors.black12,
-                  width: MediaQuery.of(context).size.width,
-                ),
-                SizedBox(height: 15),
-                familyWebUrl(),
 
-                 SizedBox(
+                familWeddingDate(family),
+                SizedBox(
                   height: 5,
                 ),
                 Container(
@@ -109,7 +67,100 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                   width: MediaQuery.of(context).size.width,
                 ),
                 SizedBox(height: 15),
-                familyMentor(),
+
+                familHomePhone(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+
+                familEmail(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                registeredDate(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyStreetAddress1(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyStreetAddress2(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyCity(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyState(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyAizCode(family),
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyWebUrl(family),
+
+                SizedBox(
+                  height: 5,
+                ),
+                Container(
+                  height: 1,
+                  color: Colors.black12,
+                  width: MediaQuery.of(context).size.width,
+                ),
+                SizedBox(height: 15),
+                familyMentor(family),
                 SizedBox(
                   height: 5,
                 ),
@@ -119,7 +170,7 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                 //   width: MediaQuery.of(context).size.width,
                 // ),
                 SizedBox(height: 15),
-                buttonAccept()
+                buttonAccept(family)
               ],
             ),
           ),
@@ -128,8 +179,7 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
     );
   }
 
-// for emplyee name widget
-  Widget familName() {
+  Widget familName(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -139,51 +189,165 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "Json Alvi",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.familyName == null || family.familyName.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.familyName}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget registeredDate() {
+  Widget familWeddingDate(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Registered date",
+          Text("Wedding Date",
               style: AppTypographyStyles.mainHeadingTextStyle
                   .apply(color: Colors.black54)),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "2020-03-25",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.weddingDate == null || family.weddingDate.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${DateTimeConverter.getDateAndTime(family.weddingDate)}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget familyStreetAddress() {
+  Widget familHomePhone(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text("Street address",
+          Text("Home Phone.",
               style: AppTypographyStyles.mainHeadingTextStyle
                   .apply(color: Colors.black54)),
           SizedBox(
             height: 5,
           ),
-          Text(
-            "St# 12 Doen Town New York",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.homePhone == null || family.homePhone.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.homePhone}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget familyCity() {
+  Widget familEmail(Family family) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Email",
+              style: AppTypographyStyles.mainHeadingTextStyle
+                  .apply(color: Colors.black54)),
+          SizedBox(
+            height: 5,
+          ),
+          family.email == null || family.email.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.email}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+        ]);
+  }
+
+  Widget registeredDate(Family family) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Registered Date",
+              style: AppTypographyStyles.mainHeadingTextStyle
+                  .apply(color: Colors.black54)),
+          SizedBox(
+            height: 5,
+          ),
+          family.createddate == null || family.createddate.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${DateTimeConverter.getDateAndTime(family.createddate)}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+        ]);
+  }
+
+  Widget familyStreetAddress1(Family family) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Street address 1",
+              style: AppTypographyStyles.mainHeadingTextStyle
+                  .apply(color: Colors.black54)),
+          SizedBox(
+            height: 5,
+          ),
+          family.address1 == null || family.address1.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.address1}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+        ]);
+  }
+
+  Widget familyStreetAddress2(Family family) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Text("Street address 2",
+              style: AppTypographyStyles.mainHeadingTextStyle
+                  .apply(color: Colors.black54)),
+          SizedBox(
+            height: 5,
+          ),
+          family.address2 == null
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.address2}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+        ]);
+  }
+
+  Widget familyCity(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -193,15 +357,21 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "New York",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.city == null || family.city.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.city}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget familyState() {
+  Widget familyState(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -211,15 +381,21 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "New jercy",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.state == null || family.state.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.state}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget familyAizCode() {
+  Widget familyAizCode(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -229,15 +405,21 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "39350",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.zipCode == null || family.zipCode.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.zipCode}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-  Widget familyWebUrl() {
+  Widget familyWebUrl(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -247,15 +429,21 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
           SizedBox(
             height: 5,
           ),
-          Text(
-            "https://www.googleapis.com/",
-            style:
-                AppTypographyStyles.smallTextStyle.apply(color: Colors.black38),
-          )
+          family.weburl == null || family.weburl.isEmpty
+              ? Text(
+                  "N/A",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
+              : Text(
+                  "${family.weburl}",
+                  style: AppTypographyStyles.smallTextStyle
+                      .apply(color: Colors.black38),
+                )
         ]);
   }
 
-   Widget familyMentor() {
+  Widget familyMentor(Family family) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -273,7 +461,7 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
         ]);
   }
 
-  Widget buttonAccept() {
+  Widget buttonAccept(Family family) {
     return Padding(
       padding:
           const EdgeInsets.only(left: 20.0, right: 20, top: 30, bottom: 15),
@@ -296,7 +484,10 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
               //   ),
               // ],
               gradient: new LinearGradient(
-                  colors: [ AppColorsStyles.backgroundColour,  AppColorsStyles.backgroundColour],
+                  colors: [
+                    AppColorsStyles.backgroundColour,
+                    AppColorsStyles.backgroundColour
+                  ],
                   begin: const FractionalOffset(0.2, 0.2),
                   end: const FractionalOffset(1.0, 1.0),
                   stops: [0.0, 1.0],
@@ -319,8 +510,9 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                   ),
                 ),
                 onPressed: () {
-                 // showMessage("Dummy leave rejectted");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewMemeber()));
+                  // showMessage("Dummy leave rejectted");
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => AddNewMemeber()));
                 }
                 // showInSnackBar("Login button pressed")
                 ),
@@ -343,33 +535,50 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
               //   ),
               // ],
               gradient: new LinearGradient(
-                  colors: [ AppColorsStyles.backgroundColour,  AppColorsStyles.backgroundColour],
+                  colors: [
+                    AppColorsStyles.backgroundColour,
+                    AppColorsStyles.backgroundColour
+                  ],
                   begin: const FractionalOffset(0.2, 0.2),
                   end: const FractionalOffset(1.0, 1.0),
                   stops: [0.0, 1.0],
                   tileMode: TileMode.clamp),
             ),
             child: MaterialButton(
-               // highlightColor: AppColorsStyles.backgroundColour,
-               // splashColor: AppColorsStyles.backgroundColour,
+                // highlightColor: AppColorsStyles.backgroundColour,
+                // splashColor: AppColorsStyles.backgroundColour,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(5.0))),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 10.0, horizontal: 0.0),
-                  child: Row(
-                                      children:<Widget>[ Text(
+                  child: Row(children: <Widget>[
+                    Text(
                       "Family members",
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 12.0,
                           fontFamily: "WorkSansBold"),
                     ),
-                                      ]),
+                  ]),
                 ),
                 onPressed: () {
-                 // showMessage("Dummy leave Accepted");
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> MemeberListScreen()));
+                  NetworkConnectivity.check().then((internet) async {
+                    // clear past user
+
+                    if (internet) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MemeberListScreen(
+                                    family: family,
+                                  )));
+                    } else {
+                      //show network erro
+                      showMessageError("Network is not avalable !!!");
+                    }
+                  });
+                  ;
                 }
                 // showInSnackBar("Login button pressed")
                 ),
@@ -377,5 +586,16 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
         ],
       ),
     );
+  }
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 1),
+    ));
   }
 }

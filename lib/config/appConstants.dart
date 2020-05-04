@@ -1,5 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 /*
@@ -37,12 +38,9 @@ class AppColorsStyles {
 }
 
 class APIConstants {
-  static const String OCTET_STREAM_ENCODING = "application/octet-stream";
-  static const String API_BASE_URL = "http://192.168.88.161:85/ords/ac/";
-  static const int PAGE_SIZE = 20;
-  static const int RANDOM_ITEM_SIZE = 15;
-  static const int LIST_ITEM_SIZE = 5;
-  static const String USER_API_TOEKN = "FFA8D541-5AE3-4D8B-80F7-4FCFF4E291DD";
+  static const String familyApi = "http://zee.somee.com/api/Families?id=1&page=";
+  static const String memberByFamilyIdApi = "http://zee.somee.com/api/Members?id=";
+  
 }
 
 class AppColours {
@@ -67,12 +65,12 @@ class NetworkConnectivity {
   }
 }
 
-// class DateTimeConverter {
-//  static String getDateAndTime(String rawDateAndTime) {
-//     var rawDate = DateTime.tryParse(rawDateAndTime);
-//     var formatter = new DateFormat.yMd().add_jm();
-//     String formatted = formatter.format(rawDate);
+class DateTimeConverter {
+ static String getDateAndTime(String rawDateAndTime) {
+    var rawDate = DateTime.tryParse(rawDateAndTime);
+    var formatter = new DateFormat.yMMMMd();
+    String formatted = formatter.format(rawDate);
 
-//     return formatted;
-//   }
-//}
+    return formatted;
+  }
+}

@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:jamaithius_family/ui/Screens/LoginScreen/loginScreen.dart';
+import 'Services/familyService.dart';
+import 'Services/memberService.dart';
 
+void setUpLocator() {
+  GetIt.I.registerLazySingleton(() => FamilyService());
+  GetIt.I.registerLazySingleton(() => MemberService());
+}
 
-void main() => runApp(MyApp());
+void main() async {
+  
+// add this, and it should be the first line in main method
+  WidgetsFlutterBinding.ensureInitialized();
+
+//Set up locator function
+  setUpLocator();
+
+  //Calling main Class
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
