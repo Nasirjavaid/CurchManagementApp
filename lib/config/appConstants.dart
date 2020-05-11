@@ -38,8 +38,10 @@ class AppColorsStyles {
 }
 
 class APIConstants {
-  static const String familyApi = "http://zee.somee.com/api/Families?id=1&page=";
-  static const String memberByFamilyIdApi = "http://zee.somee.com/api/Members?id=";
+  static const String baseUrl = "http://churchi.somee.com";
+  static const String familyApi = baseUrl+"/api/Families/getFamilies?churchID=1&page=";
+  static const String memberByFamilyIdApi = baseUrl+"/api/Members/getMembers?familyID="; 
+  static const String familySearchApi = baseUrl+"/api/Families/searchFamily?churchID=1&familyName="; 
   
 }
 

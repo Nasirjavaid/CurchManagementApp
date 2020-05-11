@@ -6,6 +6,9 @@ import 'package:jamaithius_family/Services/familyService.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/ui/Common/commonWidgets.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/verticalListViewCard.dart';
+import 'package:jamaithius_family/ui/Screens/FamilyListScreen/familySearchScreen.dart';
+
+
 
 class FamilyListViewScreen extends StatefulWidget {
   @override
@@ -42,6 +45,10 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
   void initState() {
     // TODO: implement initState
 
+     _hasMore = true;
+   netWorkChek();
+    // _loadMore();
+
     lazyListscrollController.addListener(() {
       if (lazyListscrollController.position.pixels ==
           lazyListscrollController.position.maxScrollExtent) {
@@ -53,9 +60,7 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
 
     // //_fetchSammury();
 
-    _hasMore = true;
-    netWorkChek();
-    // _loadMore();
+   
 
     super.initState();
   }
@@ -71,8 +76,8 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
     // });
 
     apiResponce = await familyService.getFamilyList(_currentPage);
-
-    if (apiResponce.data.length < 10) {
+   
+    if (apiResponce.data.length < 50) {
       setState(() {
         _isLoading = false;
         _hasMore = false;
@@ -85,7 +90,7 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
         //_hasMore = false;
       });
       showMessageError("Something went wrong !!!");
-     // print("${apiResponce.errorMessage}");
+      // print("${apiResponce.errorMessage}");
     }
 
 // print("${apiResponce.data.apr}");
@@ -95,7 +100,6 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
         _isLoading = false;
         isNewLoader = false;
         _familyList.addAll(apiResponce.data);
-        _currentPage++;
       });
     }
   }
@@ -142,13 +146,18 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
           key: _scaffoldKey,
           appBar: AppBar(
               actions: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
-                  child: Icon(
-                    Icons.search,
-                    color: Colors.white,
+               
+                   Padding(
+                    padding: const EdgeInsets.all( 0.0),
+                    child: IconButton(
+                      icon: const Icon(Icons.search),
+                      color: Colors.white, onPressed: () {  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FamilySearchScreen()),
+                    ); }, 
+                    ),
                   ),
-                )
+                  
               ],
               title: Text("All Families"),
               backgroundColor: AppColorsStyles.backgroundColour),
@@ -205,6 +214,7 @@ class _FamilyListViewScreenState extends State<FamilyListViewScreen> {
 
           if (_hasMore) {
             if (!_isLoading) {
+               _currentPage++;
               _loadMore();
             }
           }

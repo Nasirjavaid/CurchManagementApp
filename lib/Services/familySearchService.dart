@@ -5,23 +5,23 @@ import 'package:jamaithius_family/Network/apiResponce.dart';
 import 'package:http/http.dart' as http;
 import 'package:jamaithius_family/config/appConstants.dart';
 
-class FamilyService {
+class FamilySearchService {
 
 
-  Future<APIResponce<List<Family>>> getFamilyList(int pageNumber) async {
-    return http.get(APIConstants.familyApi+"$pageNumber").then((data) {
+  Future<APIResponce<List<Family>>> getFamilySearchList(String keyWord) async {
+    return http.get(APIConstants.familySearchApi+"$keyWord").then((data) {
       if (data.statusCode == 200) {
         final jsonDataAsMap = json.decode(data.body);
         final familyList = <Family>[];
 
-      //  print("Responce in family service : $jsonDataAsMap");
+        print("Responce in family search service : $jsonDataAsMap");
 
         for (var memberItem in jsonDataAsMap) {
           Family family = Family.fromJson(memberItem);
-        //  print("${family.familyName}");
+          print("${family.familyName}");
           familyList.add(family);
         }
-        print('Now on page $pageNumber');
+        print('Ley word search $keyWord');
       
         return APIResponce<List<Family>>(data: familyList);
       }

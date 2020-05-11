@@ -3,10 +3,12 @@ import 'package:get_it/get_it.dart';
 import 'package:jamaithius_family/ui/Screens/LoginScreen/loginScreen.dart';
 import 'Services/familyService.dart';
 import 'Services/memberService.dart';
+import 'Services/familySearchService.dart';
 
 void setUpLocator() {
   GetIt.I.registerLazySingleton(() => FamilyService());
   GetIt.I.registerLazySingleton(() => MemberService());
+  GetIt.I.registerLazySingleton(() => FamilySearchService());
 }
 
 void main() async {

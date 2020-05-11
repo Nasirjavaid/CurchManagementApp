@@ -49,12 +49,13 @@ class _DashBordScreenState extends State<DashBordScreen> {
       key: _scaffoldKey,
       backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0,
-        title: Center(
-            child: Text(
+        title:
+             Text(
           "Church Management",
           style: AppTypographyStyles.mainHeadingTextStyle,
-        )),
+        ),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
       ),
       body: GridView.count(
