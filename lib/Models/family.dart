@@ -57,20 +57,20 @@ class Family {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['$id'] = this.id;
     data['family_id'] = this.familyId;
-    data['church_id'] = this.churchId;
-    data['family_name'] = this.familyName;
+    data['churchID'] = this.churchId;
+    data['familyName'] = this.familyName;
     data['address1'] = this.address1;
     data['address2'] = this.address2;
     data['city'] = this.city;
     data['state'] = this.state;
-    data['zip_code'] = this.zipCode;
+    data['zip_ode'] = this.zipCode;
     data['home_phone'] = this.homePhone;
     data['email'] = this.email;
-    data['weburl'] = this.weburl;
-    data['wedding_date'] = this.weddingDate;
-    data['coach_id'] = this.coachId;
-    data['createddate'] = this.createddate;
-    data['modifieddate'] = this.modifieddate;
+  //  data['weburl'] = this.weburl;
+   // data['wedding_date'] = this.weddingDate;
+  //  data['coach_id'] = this.coachId;
+   // data['createddate'] = this.createddate;
+  //  data['modifieddate'] = this.modifieddate;
     return data;
   }
 }

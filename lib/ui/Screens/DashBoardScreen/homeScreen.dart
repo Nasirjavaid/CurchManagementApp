@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
+import 'package:jamaithius_family/config/methods.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/familyListScreen.dart';
 import 'package:jamaithius_family/ui/Screens/FamilyListScreen/addNewFamilyForm.dart';
+import 'package:jamaithius_family/ui/Screens/LoginScreen/loginScreen.dart';
 
 class DashBordScreen extends StatefulWidget {
   @override
@@ -57,6 +59,19 @@ class _DashBordScreenState extends State<DashBordScreen> {
           style: AppTypographyStyles.mainHeadingTextStyle,
         ),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
+
+
+          actions: <Widget>[
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 15.0),
+                child: Icon(Icons.settings_power, color: Colors.white),
+              ),
+              onTap: () {
+                showAlertDialog(context);
+              },
+            )
+          ],
       ),
       body: GridView.count(
         crossAxisCount: 2,
@@ -304,4 +319,66 @@ class _DashBordScreenState extends State<DashBordScreen> {
       ),
     );
   }
+
+
+ Widget showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text(
+        "Cancel",
+        style: TextStyle(color: Colors.black87),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = FlatButton(
+      child: Text(
+        "Logout",
+        style: TextStyle(color: Colors.black87),
+      ),
+      onPressed: () {
+        LoginPrefrences loginPrefrences = LoginPrefrences();
+        loginPrefrences.setUser(false);
+
+        Navigator.pushAndRemoveUntil(
+            context,
+            PageRouteBuilder(pageBuilder: (BuildContext context,
+                Animation animation, Animation secondaryAnimation) {
+              return LoginScreen();
+            }, transitionsBuilder: (BuildContext context,
+                Animation<double> animation,
+                Animation<double> secondaryAnimation,
+                Widget child) {
+              return new SlideTransition(
+                position: new Tween<Offset>(
+                  begin: const Offset(0.0, 2.0),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              );
+            }),
+            (Route route) => false);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Logout !"),
+      content: Text("You will be returned to login screen."),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }
+

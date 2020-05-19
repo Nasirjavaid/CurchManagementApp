@@ -29,4 +29,7 @@ class MemberService {
         errorMessage:
             "Error occured in Member service with this Exception $exception"));
   }
+
+
+ 
 }

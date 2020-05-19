@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:jamaithius_family/ui/Screens/DashBoardScreen/homeScreen.dart';
 import 'package:jamaithius_family/ui/Screens/LoginScreen/loginScreen.dart';
 import 'Services/familyService.dart';
 import 'Services/memberService.dart';
 import 'Services/familySearchService.dart';
+import 'Services/userService.dart';
+import 'config/methods.dart';
+
 
 void setUpLocator() {
   GetIt.I.registerLazySingleton(() => FamilyService());
   GetIt.I.registerLazySingleton(() => MemberService());
   GetIt.I.registerLazySingleton(() => FamilySearchService());
+  GetIt.I.registerLazySingleton(() => UserService());
 }
 
 void main() async {
@@ -19,8 +24,27 @@ void main() async {
 //Set up locator function
   setUpLocator();
 
-  //Calling main Class
-  runApp(MyApp());
+
+ // Set default home.
+  Widget _defaultHome = new LoginScreen();
+  LoginPrefrences loginPrefrences = LoginPrefrences();
+  bool _result = await loginPrefrences.getUser();
+  if (_result) {
+    _defaultHome = new DashBordScreen();
+  } 
+
+//  runApp(MyApp());
+
+ // Run app!
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: _defaultHome,
+    routes: <String, WidgetBuilder>{
+      // Set routes for using the Navigator.
+      '/home': (BuildContext context) => new DashBordScreen(),
+      '/login': (BuildContext context) => new LoginScreen()
+    },
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -42,7 +66,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: DashBordScreen() ,
     );
   }
 }

@@ -34,4 +34,34 @@ class FamilyService {
         errorMessage:
             "Error occured in Family service with this Exception $exception"));
   }
+
+
+
+   Future<APIResponce<bool>> insertFamily (Family family) async {
+
+
+       http.post(APIConstants.insertFamilyApi,
+       
+       
+        headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+        body: jsonEncode(family.toJson())).then((data)  {
+
+
+          if(data.statusCode ==201)
+          {
+            return APIResponce<bool> (data: true);
+          }
+
+          return APIResponce<bool>(data : false ,error: true , errorMessage:"An error occured while subbmiting data" );
+
+          
+
+      }).catchError((_) => APIResponce<bool>( data :false , error: true , errorMessage:"An error occured while subbmiting data" ));
+
+
+      
+      
+  }
 }

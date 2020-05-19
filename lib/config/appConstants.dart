@@ -8,6 +8,11 @@ Styles for typography
 */
 
 // TO DO : Finalize Font Family for the app
+
+class AppTypoGraphy {
+
+    static TextStyle errorHintStyle = TextStyle(color: Colors.white70);
+  } 
 class AppTypographyStyles {
   static TextStyle titleTextStyle = TextStyle(
       color: Colors.yellow, fontWeight: FontWeight.bold, fontSize: 12);
@@ -42,6 +47,13 @@ class APIConstants {
   static const String familyApi = baseUrl+"/api/Families/getFamilies?churchID=1&page=";
   static const String memberByFamilyIdApi = baseUrl+"/api/Members/getMembers?familyID="; 
   static const String familySearchApi = baseUrl+"/api/Families/searchFamily?churchID=1&familyName="; 
+  static const String loginApiPart1 = baseUrl+"/api/Login/VerifyLogin?user="; 
+  static const String loginApiPart2 ="&pass="; 
+
+
+  static const String insertFamilyApi =baseUrl+"/api/Families/insertFamily?"; 
+
+  
   
 }
 
@@ -76,3 +88,5 @@ class DateTimeConverter {
     return formatted;
   }
 }
+
+

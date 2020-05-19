@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
+import 'package:jamaithius_family/Models/family.dart';
+import 'package:jamaithius_family/Network/apiResponce.dart';
+import 'package:jamaithius_family/Services/familyService.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 
 class AddNewFamilyForm extends StatefulWidget {
@@ -9,9 +13,28 @@ class AddNewFamilyForm extends StatefulWidget {
 }
 
 class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
+  //date time
   DateTime selectedDate = DateTime.now();
 
+  //Text Editing Controllers
   TextEditingController etDateController = TextEditingController();
+  TextEditingController etFamilyNameController = TextEditingController();
+  TextEditingController etFamilyStreetAddressController =
+      TextEditingController();
+  TextEditingController etfamilyCityController = TextEditingController();
+  TextEditingController etFamilyStateController = TextEditingController();
+  TextEditingController etFamilyZipCodeController = TextEditingController();
+  TextEditingController etFamilyWebUrlController = TextEditingController();
+  TextEditingController etFamilyMentorController = TextEditingController();
+
+  //Api responce
+  APIResponce<bool> apiResponce;
+
+  FamilyService get familyService => GetIt.I<FamilyService>();
+
+  final _formKey = GlobalKey<FormState>();
+  final snackBar = SnackBar(content: Text('Data processing '));
+
   @override
   void initState() {
     // TODO: implement initState
@@ -19,8 +42,25 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     super.initState();
   }
 
-  final _formKey = GlobalKey<FormState>();
-  final snackBar = SnackBar(content: Text('Data processing '));
+  Future<bool> insertFamily() async {
+  //Family model
+    Family family = new Family();
+    family.familyId =1;
+    family.churchId =1;
+    family.familyName = etFamilyNameController.text;
+    family.weddingDate = selectedDate.toString();
+    family.address1 = etFamilyStreetAddressController.text;
+    family.city = etfamilyCityController.text;
+    family.state = etFamilyStateController.text;
+    family.zipCode = etFamilyZipCodeController.text;
+    family.weburl = etFamilyWebUrlController.text;
+
+    apiResponce = await familyService.insertFamily(family);
+
+    print("Api responce in Insert Family Form : ${apiResponce}");
+  
+  }
+
   @override
   Widget build(BuildContext context) {
     final logo = Hero(
@@ -37,8 +77,10 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     );
 
     final etFamilyName = Container(
+      
         height: 60,
         child: TextFormField(
+          controller: etFamilyNameController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -51,7 +93,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-            counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.people,
                 size: 15,
@@ -160,6 +202,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyStreetAddress = Container(
         height: 60,
         child: TextFormField(
+             controller: etFamilyStreetAddressController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -172,7 +215,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.location_city,
                 size: 15,
@@ -220,6 +263,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyCity = Container(
         height: 60,
         child: TextFormField(
+          controller: etfamilyCityController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -232,7 +276,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.location_on,
                 size: 15,
@@ -280,6 +324,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyState = Container(
         height: 60,
         child: TextFormField(
+          controller: etFamilyStateController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -292,7 +337,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.map,
                 size: 15,
@@ -340,6 +385,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyZipCode = Container(
         height: 60,
         child: TextFormField(
+          controller: etFamilyZipCodeController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -352,7 +398,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.satellite,
                 size: 15,
@@ -400,6 +446,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyWebUrl = Container(
         height: 60,
         child: TextFormField(
+          controller: etFamilyWebUrlController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -412,7 +459,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.web,
                 size: 15,
@@ -459,6 +506,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     final etFamilyMentor = Container(
         height: 60,
         child: TextFormField(
+          controller: etFamilyMentorController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -471,7 +519,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
             //fontFamily: ScreensFontFamlty.FONT_FAMILTY
           ),
           decoration: InputDecoration(
-             counterText: "",
+              counterText: "",
               prefixIcon: Icon(
                 Icons.insert_chart,
                 size: 15,
@@ -517,41 +565,40 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
         ));
 
     Widget row() {
-    
       return SizedBox(
-      
         height: 37,
-              child: Row(
-                //scrollDirection: Axis.horizontal ,
+        child: Row(
+          //scrollDirection: Axis.horizontal ,
           children: <Widget>[
-             Container(
-               height: MediaQuery.of(context).size.height,
-               width: MediaQuery.of(context).size.width-200,
-               
-                 decoration: BoxDecoration(
-            border: Border.all(color: AppColorsStyles.backgroundColour),
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(5.0),
-                bottomRight: Radius.circular(5.0),
-                bottomLeft: Radius.circular(5),
-                topRight: Radius.circular(5))),
-               
-               child: Center(child: Text("${selectedDate.toLocal()}".split(' ')[0]))),
-           // etWeddingDate,
-           
+            Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width - 200,
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColorsStyles.backgroundColour),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(5.0),
+                        bottomRight: Radius.circular(5.0),
+                        bottomLeft: Radius.circular(5),
+                        topRight: Radius.circular(5))),
+                child: Center(
+                    child: Text("${selectedDate.toLocal()}".split(' ')[0]))),
+            // etWeddingDate,
+
             // SizedBox(
             //   height: 2.0,
             // ),
             Spacer(),
             RaisedButton(
               shape: RoundedRectangleBorder(
-  borderRadius: new BorderRadius.circular(5.0),
-  side: BorderSide(color: AppColorsStyles.backgroundColour)
-),
+                  borderRadius: new BorderRadius.circular(5.0),
+                  side: BorderSide(color: AppColorsStyles.backgroundColour)),
               color: AppColorsStyles.backgroundColour,
               onPressed: () => _selectDate(context),
-              child: Text('Select date',style: TextStyle(color: Colors.white),),
+              child: Text(
+                'Select date',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -577,12 +624,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
         ),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-            //   // If the form is valid, display a Snackbar.
-            //  Scaffold.of(context).showSnackBar(snackBar);
-            //   Navigator.push(
-            //   context,
-            //  // MaterialPageRoute(builder: (context) => HomeScreen()),
-            // );
+           insertFamily();
           }
         },
         padding: EdgeInsets.all(12),
@@ -625,8 +667,8 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                     children: <Widget>[
                       // X1Demo(),
                       // Text('happy birthday login),
-                       logo,
-                       SizedBox(height: 0.0),
+                      logo,
+                      SizedBox(height: 0.0),
                       etFamilyName,
                       SizedBox(height: 0.0),
                       row(),
@@ -643,7 +685,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                       //   ],
                       //  ),
 
-                     //   etWeddingDate,
+                      //   etWeddingDate,
                       SizedBox(height: 10.0),
                       etFamilyStreetAddress,
                       SizedBox(height: 0.0),
