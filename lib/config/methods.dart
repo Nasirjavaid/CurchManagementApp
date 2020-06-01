@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPrefrences {
@@ -16,3 +17,14 @@ class LoginPrefrences {
     return prefs.getBool(USER_STATUS) ?? false;
   }
 }
+
+class DateTimeConverter {
+ static String getDateAndTime(String rawDateAndTime) {
+    var rawDate = DateTime.tryParse(rawDateAndTime);
+    var formatter = new DateFormat.yMMMMd();
+    String formatted = formatter.format(rawDate);
+
+    return formatted;
+  }
+}
+

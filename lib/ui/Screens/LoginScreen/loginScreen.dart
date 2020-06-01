@@ -6,6 +6,7 @@ import 'package:jamaithius_family/Network/apiResponce.dart';
 import 'package:jamaithius_family/Services/userService.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/config/methods.dart';
+import 'package:jamaithius_family/ui/Common/commonWidgets.dart';
 import 'package:jamaithius_family/ui/Screens/DashBoardScreen/homeScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -245,25 +246,7 @@ class _LoginPageState extends State<LoginScreen> {
     //   ),
     // );
 
-    final progressIndicator = Padding(
-        padding: EdgeInsets.symmetric(vertical: 25.0, horizontal: 90),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Center(
-              child: Container(
-                height: 20,
-                width: 20,
-                margin: EdgeInsets.all(5),
-                child: CircularProgressIndicator(
-                  strokeWidth: 2.0,
-                  valueColor: AlwaysStoppedAnimation(Colors.blue),
-                ),
-              ),
-            ),
-          ],
-        ));
+    
 
     final loginButton = Padding(
       padding: EdgeInsets.symmetric(vertical: 16.0),
@@ -286,7 +269,7 @@ class _LoginPageState extends State<LoginScreen> {
                 });
               if (internet) {
 
-                Future.delayed(const Duration(milliseconds: 2000), () {
+                Future.delayed(const Duration(milliseconds: 000), () {
                   print("user auth : $userAuth");
                   if (userAuth) {
                     loginPrefrences.setUser(true);
@@ -369,7 +352,7 @@ class _LoginPageState extends State<LoginScreen> {
                       password,
                       SizedBox(height: 14.0),
                       Container(
-                          child: isLoading ? progressIndicator : loginButton),
+                          child: isLoading ? CommonWidgets.progressIndicatorBlue : loginButton),
                       //backtext
                     ],
                   ),

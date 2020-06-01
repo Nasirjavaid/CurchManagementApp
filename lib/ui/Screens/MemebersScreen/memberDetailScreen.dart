@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/Models/member.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
+import 'package:jamaithius_family/config/methods.dart';
+import 'package:jamaithius_family/ui/Screens/FamilyListScreen/addNewFamilyForm.dart';
+import 'package:jamaithius_family/ui/Screens/MemebersScreen/addNewMemeber.dart';
 
 class MemberDetailScreen extends StatefulWidget {
   Member member;
-  MemberDetailScreen({this.member});
+  Family family;
+  MemberDetailScreen({this.member,this.family});
   @override
   _MemberDetailScreenState createState() => _MemberDetailScreenState(member: member);
 }
@@ -693,8 +698,9 @@ class _MemberDetailScreenState extends State<MemberDetailScreen> {
                   ),
                 ),
                 onPressed: () {
-                  showMessage("Not Functional yet.");
-                  //  Navigator.push(context, MaterialPageRoute(builder: (context)=> AdminDashboard()));
+                 
+  Family family;
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> AddNewMemeber(editingMemberModel: member,isEditing: true, family: widget.family,)));
                 }
                 // showInSnackBar("Login button pressed")
                 ),

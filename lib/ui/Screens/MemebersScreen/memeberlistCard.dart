@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/Models/member.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
 import 'package:jamaithius_family/ui/Screens/MemebersScreen/memberDetailScreen.dart';
 
 class MemeberListCard extends StatelessWidget {
   Member member;
+  Family family;
 
   MemeberListCard({
     Key key,
     this.member,
+    this.family
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -103,7 +106,7 @@ class MemeberListCard extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MemberDetailScreen(member: member,)));
+                          builder: (context) => MemberDetailScreen(member: member,family: family,)));
                 }),
           ),
         ));

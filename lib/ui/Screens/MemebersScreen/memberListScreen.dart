@@ -78,7 +78,7 @@ class _MemeberListScreenState extends State<MemeberListScreen> {
     ));
   }
 
-// fetching the Dashboard data
+
   _getMemberListData(Family family) async {
     setState(() {
       isLoading = true;
@@ -151,7 +151,7 @@ class _MemeberListScreenState extends State<MemeberListScreen> {
           itemCount: apiResponce.data.length,
           itemBuilder: (BuildContext context, int index) {
             return MemeberListCard(
-              member: apiResponce.data[index],
+              member: apiResponce.data[index], family: family,
             );
           }
           //   },

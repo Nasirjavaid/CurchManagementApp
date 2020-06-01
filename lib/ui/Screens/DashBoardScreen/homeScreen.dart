@@ -88,7 +88,7 @@ class _DashBordScreenState extends State<DashBordScreen> {
 
                   //  showMessage("TODO: DO SOMETHING HERE");
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return AddNewFamilyForm();
+                    return AddNewFamilyForm(isEditing: false,);
                   }));
                 } else {
                   //show network erro

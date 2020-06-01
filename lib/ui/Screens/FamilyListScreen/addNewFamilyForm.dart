@@ -5,9 +5,14 @@ import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/Network/apiResponce.dart';
 import 'package:jamaithius_family/Services/familyService.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
+import 'package:jamaithius_family/config/methods.dart';
+import 'package:jamaithius_family/ui/Common/commonWidgets.dart';
+import 'package:jamaithius_family/ui/Screens/MemebersScreen/addNewMemeber.dart';
 
 class AddNewFamilyForm extends StatefulWidget {
-  static String tag = 'login-page';
+  bool isEditing;
+  Family familyEditingModel;
+  AddNewFamilyForm({this.isEditing, this.familyEditingModel});
   @override
   _AddnewFamilyFormState createState() => new _AddnewFamilyFormState();
 }
@@ -19,6 +24,8 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
   //Text Editing Controllers
   TextEditingController etDateController = TextEditingController();
   TextEditingController etFamilyNameController = TextEditingController();
+  TextEditingController etFamilyHomePhoneController = TextEditingController();
+  TextEditingController etFamilyEmialController = TextEditingController();
   TextEditingController etFamilyStreetAddressController =
       TextEditingController();
   TextEditingController etfamilyCityController = TextEditingController();
@@ -28,28 +35,69 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
   TextEditingController etFamilyMentorController = TextEditingController();
 
   //Api responce
-  APIResponce<bool> apiResponce;
+  APIResponce<int> apiResponce;
+  bool isLoading = false;
+  bool dateEdinting = false;
 
   FamilyService get familyService => GetIt.I<FamilyService>();
 
   final _formKey = GlobalKey<FormState>();
-  final snackBar = SnackBar(content: Text('Data processing '));
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
-    // TODO: implement initState
     SystemChannels.textInput.invokeMethod('TextInput.hide');
+
+    if (widget.isEditing) {
+      editFamilyInitFunction(widget.familyEditingModel);
+    }
     super.initState();
   }
 
+  void showMessageSuccess(String message, [MaterialColor color = Colors.blue]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 1),
+    ));
+  }
+
+  void showMessageError(String message, [MaterialColor color = Colors.red]) {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      backgroundColor: color,
+      content: new Text(
+        message,
+        style: TextStyle(fontWeight: FontWeight.w700),
+      ),
+      duration: const Duration(seconds: 1),
+    ));
+  }
+
   Future<bool> insertFamily() async {
-  //Family model
+    setState(() {
+      isLoading = true;
+    });
+    //Family model
     Family family = new Family();
-    family.familyId =1;
-    family.churchId =1;
+
+    if (widget.isEditing) {
+      family.familyId = widget.familyEditingModel.familyId;
+      print("Family updated.....#############");
+    } else {
+      family.familyId = 0;
+      print("New family added......");
+    }
+
+    family.churchId = 1;
     family.familyName = etFamilyNameController.text;
+    family.homePhone = etFamilyHomePhoneController.text;
+    family.email = etFamilyEmialController.text;
     family.weddingDate = selectedDate.toString();
     family.address1 = etFamilyStreetAddressController.text;
+    family.address2 = "";
     family.city = etfamilyCityController.text;
     family.state = etFamilyStateController.text;
     family.zipCode = etFamilyZipCodeController.text;
@@ -57,8 +105,59 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
 
     apiResponce = await familyService.insertFamily(family);
 
-    print("Api responce in Insert Family Form : ${apiResponce}");
-  
+    if (apiResponce == null) {
+      setState(() {
+        isLoading = false;
+        return false;
+      });
+
+      showMessageError("Something went wrong");
+    }
+
+    if (apiResponce != null) {
+      setState(() {
+        isLoading = false;
+
+        etFamilyNameController.text = "";
+        etFamilyHomePhoneController.text = "";
+        etFamilyEmialController.text = "";
+
+        etFamilyStreetAddressController.text = "";
+
+        etfamilyCityController.text = "";
+        etFamilyStateController.text = "";
+        etFamilyZipCodeController.text = "";
+        etFamilyWebUrlController.text = "";
+        etFamilyMentorController.text ="";
+      });
+
+   if(widget.isEditing)
+   {
+   showMessageSuccess("Family updated");
+   }else{
+        showMessageSuccess("Family added");
+   }
+
+      return true;
+    }
+
+    print("Api responce in Insert Family Form : ${apiResponce.data}");
+    // return false;
+  }
+
+  editFamilyInitFunction(Family family) {
+    etFamilyNameController.text = family.familyName;
+    etFamilyHomePhoneController.text = family.homePhone;
+    etFamilyEmialController.text = family.email;
+    etFamilyStreetAddressController.text = family.address1;
+
+    //address2 is not available yet
+    //etFamilyStreetAddressController.text =family.address2;
+    etfamilyCityController.text = family.city;
+    etFamilyStateController.text = family.state;
+    etFamilyZipCodeController.text = family.zipCode;
+    etFamilyWebUrlController.text = family.weburl;
+    etFamilyMentorController.text = family.coachId.toString();
   }
 
   @override
@@ -77,7 +176,6 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     );
 
     final etFamilyName = Container(
-      
         height: 60,
         child: TextFormField(
           controller: etFamilyNameController,
@@ -199,10 +297,10 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           },
         ));
 
-    final etFamilyStreetAddress = Container(
+    final etfamilyHomePhone = Container(
         height: 60,
         child: TextFormField(
-             controller: etFamilyStreetAddressController,
+          controller: etFamilyHomePhoneController,
           cursorColor: Color.fromRGBO(64, 75, 96, .9),
           keyboardType: TextInputType.text,
           textCapitalization: TextCapitalization.words,
@@ -216,11 +314,135 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.location_city,
-                size: 15,
+              // prefixIcon: Icon(
+              //   Icons.people,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              border: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              hintText: "Home phone",
+              hintStyle: TextStyle(
+                fontSize: 12,
                 color: Color.fromRGBO(64, 75, 96, .9),
+                //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
+              labelText: "Home phone",
+              filled: true,
+              fillColor: Colors.white,
+              errorStyle:
+                  TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
+          validator: (String familyname) {
+            if (familyname.isEmpty) {
+              return "Please Add Family Home Phone";
+            } else {
+              return null;
+            }
+          },
+        ));
+
+    final etFamilyEmail = Container(
+        height: 60,
+        child: TextFormField(
+          controller: etFamilyEmialController,
+          cursorColor: Color.fromRGBO(64, 75, 96, .9),
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+          autocorrect: false,
+          //controller: firstNameTextController,
+          //validator: _validateFirstName,
+          maxLength: 300,
+          style: TextStyle(
+            color: Color.fromRGBO(64, 75, 96, .9),
+            //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+          ),
+          decoration: InputDecoration(
+              counterText: "",
+              // prefixIcon: Icon(
+              //   Icons.people,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              border: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 1.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: const BorderSide(
+                      // color: Color.fromARGB(255, 232, 232, 232),
+                      color: Color.fromRGBO(64, 75, 96, .9),
+                      width: 2.0),
+                  borderRadius: BorderRadius.all(Radius.circular(5))),
+              hintText: "Family email",
+              hintStyle: TextStyle(
+                fontSize: 12,
+                color: Color.fromRGBO(64, 75, 96, .9),
+                //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+              ),
+              filled: true,
+              labelText: "Family email",
+              fillColor: Colors.white,
+              errorStyle:
+                  TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
+          validator: (String familyname) {
+            if (familyname.isEmpty) {
+              return "Please Add Family Email";
+            } else {
+              return null;
+            }
+          },
+        ));
+
+    final etFamilyStreetAddress = Container(
+        height: 60,
+        child: TextFormField(
+          controller: etFamilyStreetAddressController,
+          cursorColor: Color.fromRGBO(64, 75, 96, .9),
+          keyboardType: TextInputType.text,
+          textCapitalization: TextCapitalization.words,
+          autocorrect: false,
+          //controller: firstNameTextController,
+          //validator: _validateFirstName,
+          maxLength: 300,
+          style: TextStyle(
+            color: Color.fromRGBO(64, 75, 96, .9),
+            //fontFamily: ScreensFontFamlty.FONT_FAMILTY
+          ),
+          decoration: InputDecoration(
+              counterText: "",
+              // prefixIcon: Icon(
+              //   Icons.location_city,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -248,6 +470,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's street address",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -277,11 +500,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.location_on,
-                size: 15,
-                color: Color.fromRGBO(64, 75, 96, .9),
-              ),
+              // prefixIcon: Icon(
+              //   Icons.location_on,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -309,6 +532,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's city",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -338,11 +562,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.map,
-                size: 15,
-                color: Color.fromRGBO(64, 75, 96, .9),
-              ),
+              // prefixIcon: Icon(
+              //   Icons.map,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -370,6 +594,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's State",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -399,11 +624,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.satellite,
-                size: 15,
-                color: Color.fromRGBO(64, 75, 96, .9),
-              ),
+              // prefixIcon: Icon(
+              //   Icons.satellite,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -431,6 +656,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's zip code",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -460,11 +686,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.web,
-                size: 15,
-                color: Color.fromRGBO(64, 75, 96, .9),
-              ),
+              // prefixIcon: Icon(
+              //   Icons.web,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -492,6 +718,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's web Url",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -520,11 +747,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
           ),
           decoration: InputDecoration(
               counterText: "",
-              prefixIcon: Icon(
-                Icons.insert_chart,
-                size: 15,
-                color: Color.fromRGBO(64, 75, 96, .9),
-              ),
+              // prefixIcon: Icon(
+              //   Icons.insert_chart,
+              //   size: 15,
+              //   color: Color.fromRGBO(64, 75, 96, .9),
+              // ),
               contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
               border: const OutlineInputBorder(
                   borderSide: const BorderSide(
@@ -552,6 +779,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                 //fontFamily: ScreensFontFamlty.FONT_FAMILTY
               ),
               filled: true,
+              labelText: "Family's Mentor/Coach (Optional)",
               fillColor: Colors.white,
               errorStyle:
                   TextStyle(color: Colors.red, fontStyle: FontStyle.italic)),
@@ -582,7 +810,15 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                         bottomLeft: Radius.circular(5),
                         topRight: Radius.circular(5))),
                 child: Center(
-                    child: Text("${selectedDate.toLocal()}".split(' ')[0]))),
+                    child: widget.isEditing &&
+                            widget.familyEditingModel.weddingDate != null &&
+                            dateEdinting == false
+                        ? Text(
+                            "${DateTimeConverter.getDateAndTime(widget.familyEditingModel.weddingDate)}",
+                          )
+                        : Text(
+                            "${selectedDate.toLocal()}".split(' ')[0],
+                          ))),
             // etWeddingDate,
 
             // SizedBox(
@@ -624,7 +860,45 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
         ),
         onPressed: () {
           if (_formKey.currentState.validate()) {
-           insertFamily();
+            // netWorkChek();
+
+            NetworkConnectivity.check().then((internet) async {
+              bool userAuth = await insertFamily();
+
+              print("returned value : $userAuth");
+              if (internet) {
+                if (userAuth) {
+                  Future.delayed(const Duration(milliseconds: 1500), () {
+                    Navigator.push(
+                        context,
+                        PageRouteBuilder(pageBuilder: (BuildContext context,
+                            Animation animation, Animation secondaryAnimation) {
+                          return AddNewMemeber(familyId: apiResponce.data,isEditing: false,);
+                        }, transitionsBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation,
+                            Widget child) {
+                          return new SlideTransition(
+                            position: new Tween<Offset>(
+                              begin: const Offset(1.0, 0.0),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          );
+                        }));
+                  });
+                } else {
+                  showMessageError("Something went wrong");
+
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              } else {
+                //show network erro
+                showMessageError("Network is not avalable");
+              }
+            });
           }
         },
         padding: EdgeInsets.all(12),
@@ -642,8 +916,11 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
     // );
 
     return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
-            title: Text("Add a new Famliy"),
+            title: widget.isEditing
+                ? Text("Update Famliy")
+                : Text("Add a new Famliy"),
             backgroundColor: AppColorsStyles.backgroundColour),
         backgroundColor: Color.fromRGBO(58, 66, 86, 1.0),
         body: Form(
@@ -671,6 +948,8 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                       SizedBox(height: 0.0),
                       etFamilyName,
                       SizedBox(height: 0.0),
+                      etfamilyHomePhone,
+                      etFamilyEmail,
                       row(),
                       //               ListView(
                       //                 itemExtent: 2,
@@ -699,7 +978,10 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
                       SizedBox(height: 0.0),
                       etFamilyMentor,
                       SizedBox(height: 0.0),
-                      submitButtom,
+                      Container(
+                          child: isLoading
+                              ? CommonWidgets.progressIndicatorBlue
+                              : submitButtom),
                       //backtext
                     ],
                   ),
@@ -718,6 +1000,7 @@ class _AddnewFamilyFormState extends State<AddNewFamilyForm> {
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedDate)
       setState(() {
+        dateEdinting = true;
         selectedDate = picked;
         etDateController.text = "${selectedDate.toLocal()}".split(' ')[0];
       });

@@ -1,7 +1,9 @@
 class Member {
-  String id;
+  int id;
+  int familyId;
   int memberId;
   int churchId;
+  int relationShipId;
   String firstName;
   String lastName;
   String address1;
@@ -17,6 +19,7 @@ class Member {
   String dob;
   String membershipNo;
   String salutation;
+  bool isMember;
   bool donotemail;
   String lastvisiteddate;
   String lastattendeddate;
@@ -28,8 +31,10 @@ class Member {
 
   Member(
       {this.id,
+      this.familyId,
       this.memberId,
       this.churchId,
+      this.relationShipId,
       this.firstName,
       this.lastName,
       this.address1,
@@ -45,6 +50,7 @@ class Member {
       this.dob,
       this.membershipNo,
       this.salutation,
+      this.isMember,
       this.donotemail,
       this.lastvisiteddate,
       this.lastattendeddate,
@@ -56,6 +62,7 @@ class Member {
 
   Member.fromJson(Map<String, dynamic> json) {
     id = json['$id'];
+    familyId =json['familyID'];
     memberId = json['member_id'];
     churchId = json['church_id'];
     firstName = json['first_name'];

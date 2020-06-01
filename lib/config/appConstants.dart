@@ -1,6 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
 
 
 /*
@@ -51,7 +51,50 @@ class APIConstants {
   static const String loginApiPart2 ="&pass="; 
 
 
-  static const String insertFamilyApi =baseUrl+"/api/Families/insertFamily?"; 
+  static const String insertOrUpdateFamilyApi ="http://churchi.somee.com/api/Families/insertFamily?"; 
+
+    static const String churchID ="churchID=";
+    static const String familyID ="familyID=";
+    static const String familyName ="familyName=";
+    static const String address1 ="address1=";
+    static const String address2 ="address2=";
+    static const String city ="city=";
+    static const String state ="state=";
+    static const String zip_code ="zip_code=";
+    static const String home_phone ="home_phone=";
+    static const String email ="email=";
+    static const String weburl ="weburl=";
+    static const String wedding_date ="wedding_date=";
+
+
+
+ 
+
+    static const String inserOrUpdateMemberApi ="http://churchi.somee.com/api/Members/InsertMember?"; 
+
+
+    static const String mChurchId ="churchID=";
+    static const String mMemberId ="memberID=";
+    static const String mFamilyId ="familyID=";
+    static const String mFirstName ="firstName=";
+    static const String mLatName ="lastName=";
+    static const String mAddress1 ="address1=";
+    static const String mAddress2 ="address2=";
+    static const String mCity ="city=";
+    static const String mState ="state=";
+    static const String mZipCode ="zip_code=";
+    static const String mDayPhone ="dayPhone=";
+    static const String mEveningPhone ="eveningPhone=";
+    static const String mMobilePhone ="mobilePhone=";
+    static const String mEamil ="email=";
+    static const String mWebUrl ="weburl=";
+    static const String mDob ="dob=";
+    static const String mMemberShipNo ="membershipno=";
+    static const String misMemeber ="isMember=";
+    static const String mSalutation ="salutation=";
+    static const String mRelationshipID ="relationshipID=";
+
+
 
   
   
@@ -79,14 +122,5 @@ class NetworkConnectivity {
   }
 }
 
-class DateTimeConverter {
- static String getDateAndTime(String rawDateAndTime) {
-    var rawDate = DateTime.tryParse(rawDateAndTime);
-    var formatter = new DateFormat.yMMMMd();
-    String formatted = formatter.format(rawDate);
-
-    return formatted;
-  }
-}
 
 

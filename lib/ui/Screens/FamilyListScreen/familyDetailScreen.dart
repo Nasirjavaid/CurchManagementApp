@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:jamaithius_family/Models/family.dart';
 import 'package:jamaithius_family/config/appConstants.dart';
+import 'package:jamaithius_family/config/methods.dart';
+import 'package:jamaithius_family/ui/Screens/FamilyListScreen/addNewFamilyForm.dart';
 import 'package:jamaithius_family/ui/Screens/MemebersScreen/addNewMemeber.dart';
 import 'package:jamaithius_family/ui/Screens/MemebersScreen/memberListScreen.dart';
 
 class FamilyDetailScreen extends StatefulWidget {
+
+  
   Family family;
 
   FamilyDetailScreen({this.family});
@@ -36,8 +40,32 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
-            title: Text("Family detail"),
-            backgroundColor: AppColorsStyles.backgroundColour),
+          title: Text("Family detail"),
+          backgroundColor: AppColorsStyles.backgroundColour,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                NetworkConnectivity.check().then((internet) async {
+                  // clear past user
+
+                  if (internet) {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AddNewFamilyForm(
+                                  familyEditingModel: family,
+                                  isEditing: true,
+                                )));
+                  } else {
+                    //show network erro
+                    showMessageError("Network is not avalable !!!");
+                  }
+                });
+              },
+            )
+          ],
+        ),
         // backgroundColor: AppColors.loginGradientStart,
 
         body: Container(
@@ -512,7 +540,7 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                 onPressed: () {
                   // showMessage("Dummy leave rejectted");
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddNewMemeber()));
+                      MaterialPageRoute(builder: (context) => AddNewMemeber(familyId: family.familyId,isEditing: false,)));
                 }
                 // showInSnackBar("Login button pressed")
                 ),
@@ -578,7 +606,6 @@ class _FamilyDetailScreenState extends State<FamilyDetailScreen> {
                       showMessageError("Network is not avalable !!!");
                     }
                   });
-                  ;
                 }
                 // showInSnackBar("Login button pressed")
                 ),
